@@ -2,10 +2,12 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const authRoute = require('./Routes/auth');
+const dotenv = require('dotenv');
 
 
-mongoose.connect('mongodb+srv://spwrtt:<password>@cluster0.zver3.mongodb.net/<dbname>?retryWrites=true&w=majority', 
-{ useNewUrlParser: true },
+dotenv.config();
+
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true },
 () => console.log("Contected to db"))
 
 
