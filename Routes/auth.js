@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const User = require('../model/User');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { registerValidation, loginValidation } = require('../validation');
-
 
 router.post('/register', async (req, res) => {
     
@@ -11,8 +11,8 @@ router.post('/register', async (req, res) => {
     if(error) return res.status(400).send(error.details[0].message);
 
     //Checking if the user is already in the databease
-    const emailExist = await User.findOne({email: req.body.email});
-    if(emailExist) return res.status(400).send('Email already exists');
+    const nameExist = await User.findOne({name: req.body.name});
+    if(nameExist) return res.status(400).send('Name already exists');
 
     // Hash the password
     const salt = await bcrypt.genSalt(10);
@@ -21,21 +21,21 @@ router.post('/register', async (req, res) => {
     // Create a new user
     const user = new User({
         name: req.body.name,
-        email: req.body.email,
         password: hashedPassword
     });
 
     try {
         const savedUser = await user.save();
-        res.send({
-            user: user._id
+        const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {expiresIn: `${process.env.TOKEN_LIFE_TIME}s`});
+        res.header('auth-token', token).status(200).send({
+            name: savedUser.name,
+            token,
+            tokenLifeTime: +process.env.TOKEN_LIFE_TIME
         });
     } catch(error) { 
         res.status(400).send(error);
     }
 })
-
-
 
 router.post('/login', async (req, res) => {
     
@@ -44,16 +44,25 @@ router.post('/login', async (req, res) => {
     if(error) return res.status(400).send(error.details[0].message);
 
     //Checking if the user is already in the databease
-    const user = await User.findOne({email: req.body.email});
-    if(!user) return res.status(400).send('Email is not found');
+    const user = await User.findOne({name: req.body.name});
+    if(!user) return res.status(400).send('Name is not found');
 
     //Checking password
     const validPass = await bcrypt.compare(req.body.password, user.password);
     if(!validPass) return res.status(400).send('Invalid password')
 
-    res.send('Logged in');
-    // Create a new user
-    
+    // Create and assign a token
+    const token = jwt.sign(
+        { _id: user._id }, 
+        process.env.TOKEN_SECRET, 
+        {expiresIn: `${process.env.TOKEN_LIFE_TIME}s`}
+    );
+
+    res.header('auth-token', token).status(200).send({
+        tokenLifeTime: +process.env.TOKEN_LIFE_TIME,
+        name: req.body.name,
+        token
+    });
 })
 
 
