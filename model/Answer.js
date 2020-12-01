@@ -8,8 +8,8 @@ const answerSchema = new mongoose.Schema({
     content: {
         type: String,
         required: true,
-        min: 6,
-        max: 255
+        min: 1,
+        max: 50
     },
     isCorrect: {
         type: Boolean,

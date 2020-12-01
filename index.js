@@ -17,7 +17,7 @@ mongoose.connect(
         console.log("Contected to db"
 ));
 
-app.use(cors())
+app.use(cors());
 app.use(express.json()); //Middleware
 
 app.use('/api/auth', authRoute); // Route Middlewares
