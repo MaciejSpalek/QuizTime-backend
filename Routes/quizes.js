@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Quiz = require('../model/Quiz');
+const Score = require('../model/Score');
 
 router.post('/addQuiz', async (req, res) => {
   const quiz = new Quiz({
@@ -39,5 +40,21 @@ router.get('/singleQuiz', async (req, res) => {
     res.status(400).json({ message: 'Quiz not found' });
   }
 });
+
+router.post('/addScore', async (req, res) => {
+  const score = new Score({
+    score: req.body.score,
+    quizID: req.body.quizID,
+    executor: req.body.executor,
+  });
+
+  try {
+    const savedScore = await score.save();
+    res.send(savedScore);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 
 module.exports = router;
