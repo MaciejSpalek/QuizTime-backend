@@ -12,6 +12,10 @@ const scoreSchema = new mongoose.Schema({
     executor: {
         type: String,
         required: true,
+    },
+    date: {
+        type: Date,
+        default: Date.now()
     }
 });
 
