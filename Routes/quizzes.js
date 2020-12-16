@@ -49,11 +49,14 @@ router.post("/addScore", async (req, res) => {
   });
 
   try {
-    const doesScoreExist = await Score.findOne({ quizID: req.body.quizID });
+    const doesScoreExist = await Score.findOne({ quizID: req.body.quizID, executor: req.body.executor });
+
     if (!doesScoreExist) {
       await score.save();
+      res.json({message: "Successfully add score"})
     } else {
-      await Score.updateOne({quizID: req.body.quizID}, {$set: {score: req.body.score}})
+      await Score.updateOne({ quizID: req.body.quizID, executor: req.body.executor}, {$set: {score: req.body.score}})
+      res.json({message: "Successfully update score"})
     }
   } catch (error) {
     res.send(error);
@@ -65,5 +68,6 @@ router.get("/userScores", async (req, res) => {
   const scores = await Score.find({ executor });
   res.json(scores);
 });
+
 
 module.exports = router;
