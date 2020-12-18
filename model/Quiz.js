@@ -29,6 +29,10 @@ const quizSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    counter: {
+        type: Number,
+        required: true
+    },
     questions: [Question]
 });
 

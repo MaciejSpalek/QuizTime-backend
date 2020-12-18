@@ -10,6 +10,7 @@ router.post("/addQuiz", async (req, res) => {
     colors: req.body.colors,
     iconName: req.body.iconName,
     questions: req.body.questions,
+    counter: 0
   });
 
   try {
@@ -62,6 +63,18 @@ router.post("/addScore", async (req, res) => {
     res.send(error);
   }
 });
+
+router.put("/updateCounter", async (req, res) => {
+  const { id } = req.query;
+  try {
+    const quizCounter = await Quiz.findOne({ _id: id });
+    await Quiz.updateOne({ _id: id}, {$set: {counter: quizCounter.counter+1}})
+    res.json({ message: "Successfully update counter"})
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 
 router.get("/userScores", async (req, res) => {
   const { executor } = req.query;
