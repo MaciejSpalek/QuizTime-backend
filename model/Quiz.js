@@ -33,7 +33,7 @@ const quizSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    questions: [Question]
+    questions: [Question],
 });
 
 module.exports = mongoose.model('Quiz', quizSchema);

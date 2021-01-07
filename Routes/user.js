@@ -12,4 +12,9 @@ router.get("/singleUser", async (req, res) => {
   res.json(userExist);
 });
 
+router.get("/allNames", async (req, res) => {
+  const users = await User.find({}, 'name')
+  res.json(users);
+});
+
 module.exports = router;

@@ -23,12 +23,12 @@ router.post("/addQuiz", async (req, res) => {
 
 router.get("/userQuizzes", async (req, res) => {
   const { author } = req.query;
-  const quiz = await Quiz.find({ author });
+  const quiz = await Quiz.find({ author }).sort({_id:-1});
   res.json(quiz);
 });
 
 router.get("/allQuizzes", async (req, res) => {
-  const quizzes = await Quiz.find({});
+  const quizzes = await Quiz.find({}).sort({_id:-1});
   res.json(quizzes);
 });
 
@@ -56,7 +56,7 @@ router.post("/addScore", async (req, res) => {
       await score.save();
       res.json({message: "Successfully add score"})
     } else {
-      await Score.updateOne({ quizID: req.body.quizID, executor: req.body.executor}, {$set: {score: req.body.score}})
+      await Score.updateOne({ quizID: req.body.quizID, executor: req.body.executor}, {$set: { score: req.body.score }})
       res.json({message: "Successfully update score"})
     }
   } catch (error) {
@@ -65,10 +65,10 @@ router.post("/addScore", async (req, res) => {
 });
 
 router.put("/updateCounter", async (req, res) => {
-  const { id } = req.query;
+  const id = req.body.id;
   try {
     const quizCounter = await Quiz.findOne({ _id: id });
-    await Quiz.updateOne({ _id: id}, {$set: {counter: quizCounter.counter+1}})
+    await Quiz.updateOne({ _id: id }, {$set: { counter: quizCounter.counter+1 }})
     res.json({ message: "Successfully update counter"})
   } catch (error) {
     res.send(error);
