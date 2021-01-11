@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
         min: 6,
         max: 100
     },
+    email: {
+        type: String,
+        required: true,
+    },
     date: {
         type: Date,
         default: Date.now()
