@@ -1,27 +1,35 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8080;
-const dotenv = require('dotenv');
-const mongoose = require('mongoose');
-const cors = require('cors');
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const cors = require("cors");
 
-const authRoute = require('./routes/auth');
-const userRoute = require('./routes/user');
-const quizesRoute = require('./routes/quizzes');
+const authRoute = require("./src/routes/auth");
+const userRoute = require("./src/routes/user");
+const quizRoute = require("./src/routes/quiz");
 
 dotenv.config();
 
-mongoose.connect(
-    process.env.DB_CONNECT, 
-    { useNewUrlParser: true }, () => 
-        console.log("Contected to db"
-));
+mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () =>
+  console.log("Connected to database")
+);
 
 app.use(cors());
-app.use(express.json()); //Middleware
+app.use(express.json());
 
-app.use('/api/auth', authRoute); // Route Middlewares
-app.use('/api/user', userRoute); // Route Middlewares
-app.use('/api/quizes', quizesRoute); // Route Middlewares
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+
+app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
+app.use("/api/quiz", quizRoute);
 
 app.listen(PORT, () => console.log(`Server is running...`));
