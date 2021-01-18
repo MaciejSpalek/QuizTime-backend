@@ -11,11 +11,18 @@ const quizRoute = require("./src/routes/quiz");
 
 dotenv.config();
 
-mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true }, () =>
-  console.log("Connected to database")
+mongoose.connect(
+  process.env.DB_CONNECT,
+  { useNewUrlParser: true, useUnifiedTopology: true },
+  () => console.log("Connected to database")
 );
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 app.use(express.json());
 
 app.use((req, res, next) => {
