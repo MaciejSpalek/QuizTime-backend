@@ -42,7 +42,7 @@ router.post("/addQuiz", verify, async (req, res) => {
 
 
 
-router.post("/addScore", async (req, res) => {
+router.post("/addScore", verify, async (req, res) => {
   const score = new Score({
     score: req.body.score,
     quizID: req.body.quizID,

@@ -70,7 +70,7 @@ router.post('/login', async (req, res) => {
     });
 })
 
-router.get('/', async (req, res) => {
+router.get('/status', async (req, res) => {
     try {
         res.status(200).send(true);
     } catch(error) { 
