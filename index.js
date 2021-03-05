@@ -9,7 +9,7 @@ const authRoute = require("./src/routes/auth");
 const userRoute = require("./src/routes/user");
 const quizRoute = require("./src/routes/quiz");
 
-dotenv.config();
+dotenv.config({path: __dirname + "/.env"});
 
 app.use(
   cors({
@@ -21,9 +21,9 @@ app.use(
 app.use(express.json());
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', req.headers.origin);
-  res.header('Access-Control-Allow-Credentials', true);
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header("Access-Control-Allow-Origin", req.headers.origin);
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
   
