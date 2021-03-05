@@ -29,3 +29,9 @@ exports.getAllUserQuizzes = async (req, res) => {
   const quiz = await Quiz.find({ author }).sort({ _id: -1 });
   res.json(quiz);
 };
+
+exports.getSingleScore = async (req, res) => {
+  const { executor, quizID } = req.query;
+  const scores = await Score.find({ executor, quizID });
+  res.json(scores);
+}

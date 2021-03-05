@@ -33,6 +33,10 @@ const quizSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
+    category: {
+        type: String,
+        required: true
+    },
     questions: [Question],
 });
 
