@@ -11,7 +11,7 @@ const {
 router.get("/allUsers", getAllUsers);
 router.get("/singleUser", getSingleUser);
 router.get("/allNames", getAllNames);
-router.get("/allScores", verify,  getAllUserScores);
+router.get("/allScores", verify, getAllUserScores);
 router.get("/allQuizzes", getAllUserQuizzes);
 
 module.exports = router;
