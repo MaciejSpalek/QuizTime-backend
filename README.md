@@ -1,6 +1,6 @@
 # The QuizTime server
 
-## Description 
+## Description
 
 It's the server created with the help Node.js + express. It used MongoDB to store all data.
 
