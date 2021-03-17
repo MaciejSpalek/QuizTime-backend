@@ -6,6 +6,12 @@ exports.getAllQuizzes = async (req, res) => {
   res.json(quizzes);
 };
 
+exports.getAllQuizzesByCategory = async (req, res) => {
+  const { category } = req.query;
+  const quizzes = await Quiz.find({ category }).sort({ _id: -1 }).limit(30);
+  res.json(quizzes);
+};
+
 exports.getSingleQuizzes = async (req, res) => {
   const { id, author } = req.query;
   try {
@@ -29,6 +35,7 @@ exports.addQuiz = async (req, res) => {
     colors: req.body.colors,
     iconName: req.body.iconName,
     questions: req.body.questions,
+    category: req.body.category,
     counter: 0,
   });
 

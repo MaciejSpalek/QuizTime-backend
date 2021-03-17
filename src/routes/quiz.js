@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const { verify } = require("jsonwebtoken");
-const { 
+const {
+  getAllQuizzesByCategory,
   getMostPopularQuiz,
   getSingleQuizzes,
   getAllQuizzes,
@@ -9,11 +10,12 @@ const {
   addQuiz
 } = require("../controllers/QuizController");
 
-router.get("/allQuizzes", getAllQuizzes);
-router.get("/singleQuiz", getSingleQuizzes);
+router.get("/allCategoryQuizzes", getAllQuizzesByCategory);
 router.get("/mostPopular", getMostPopularQuiz);
-router.post("/addQuiz", verify, addQuiz);
-router.post("/addScore", verify, addScore);
+router.get("/singleQuiz", getSingleQuizzes);
+router.get("/allQuizzes", getAllQuizzes);
 router.put("/updateCounter", updateCounter);
+router.post("/addScore", verify, addScore);
+router.post("/addQuiz", verify, addQuiz);
 
 module.exports = router;
